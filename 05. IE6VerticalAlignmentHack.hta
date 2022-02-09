@@ -7,7 +7,13 @@
         <!-- IE=9:  HTML5, CSS3, Not support CSS3 Animation, Support <HTA> tag, Support VBScript -->
         <!-- IE=10: HTML5, CSS3, Not support <HTA> tag, Support VBScript -->
         <!-- IE=11: HTML5, CSS3, Not support <HTA> tag, not support VBScript -->
-        <meta http-equiv="x-ua-compatible" content="IE=6"/>
+        <!-- If you gotta enable HTML5, Just Un-comment the following line of code: -->
+        <!-- <meta http-equiv="x-ua-compatible" content="IE=9"/> -->
+
+        <!-- Just a script that helps you know whether the VBScript is supported -->
+        <!-- <script type="text/vbscript"> -->
+            <!-- MsgBox "The VBScript is supported.", 65, "VBScript Support Test" -->
+        <!-- </script> -->
 
         <!-- The <script> tag should be placed before the <HTA> tag -->
         <!-- In order to do window resize before the window created -->
@@ -35,7 +41,9 @@
             function BeforeWindowOnload_Loop(){
                 window.resizeTo(window.windowWidth, window.windowHeight);
                 var position = CalculateWindowPosition(window.windowWidth, window.windowHeight);
-                window.moveTo(position[0], position[1]);
+                window.windowLeft = position[0];
+                window.windowUp = position[1];
+                window.moveTo(window.windowLeft, window.windowUp);
             }
 
             // The following script will run BEFORE the window loads

@@ -28,7 +28,9 @@
             function BeforeWindowOnload_Loop(){
                 window.resizeTo(window.windowWidth, window.windowHeight);
                 var position = CalculateWindowPosition(window.windowWidth, window.windowHeight);
-                window.moveTo(position[0], position[1]);
+                window.windowLeft = position[0];
+                window.windowUp = position[1];
+                window.moveTo(window.windowLeft, window.windowUp);
             }
 
             // The following script will run BEFORE the window loads
