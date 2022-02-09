@@ -77,22 +77,37 @@
         />
 
         <script>
-            function ExecProgram(IndexPath, FilePath)
+            function CMD(command, hideCMDWindowOrNot, syncOrNot)
             {
-                var FolderPath = IndexPath.substr(0, IndexPath.lastIndexOf('/') + 1);
-                var Shell = new ActiveXObject('WScript.Shell');
-                if(Shell){
-                    Shell.Run(FolderPath + FilePath);
+                var hideCMDWindow = hideCMDWindowOrNot == true ? 0 : 1;
+                var shell = new ActiveXObject('WScript.Shell');
+
+                if (shell){
+                    return shell.Run(command, hideCMDWindow, syncOrNot);
+                }
+                else{
+                    return null;
                 }
             }
 
-            function PrintAndSleepAsync(){
-                ExecProgram(window.location.href, "PrintAndSleep.bat");
+            function GetCurrentCWD(){
+                var indexPath = window.location.href;
+                return indexPath.substr(0, indexPath.lastIndexOf('/') + 1);
+            }
+
+            function PrintAndSleep(hideCMDWindowOrNot_, syncOrNot_){
+                CMD("PrintAndSleep.bat", hideCMDWindowOrNot=hideCMDWindowOrNot_, syncOrNot=syncOrNot_);
                 alert("Javascript已经运行到ExecProgram的下一行");
             }
         </script>
     </head>
     <body>
-        <button onclick="PrintAndSleepAsync()">Execute PrintAndSleep.bat</button>
+        <button onclick="PrintAndSleep(true, true)">Execute PrintAndSleep.bat Syncly and Quietly</button>
+        <hr/>
+        <button onclick="PrintAndSleep(false, true)">Execute PrintAndSleep.bat Syncly and Windowly</button>
+        <hr/>
+        <button onclick="PrintAndSleep(true, false)">Execute PrintAndSleep.bat Asyncly and Quietly</button>
+        <hr/>
+        <button onclick="PrintAndSleep(false, false)">Execute PrintAndSleep.bat Asyncly and Windowly</button>
     </body>
 </html>
