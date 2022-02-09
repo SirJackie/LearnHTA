@@ -1,23 +1,11 @@
 <html>
     <head>
         <title>Resize Window</title>
-        <HTA:Application
-         ApplicationName="Message Box"
-         ID="MsgBox"
-         InnerBorder="no"
-         MaximizeButton="no"
-         MinimizeButton="no"
-         Scroll="no"
-         ContextMenu="no"
-         Selection="no"
-         SingleInstance="yes"
-         Border="thin"
-         Icon="colorcpl.exe"
-        />
-        <!-- ContextMenu: 右键菜单 -->
-        <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
-        <!-- Icon=".exe": 使用在System32文件夹中的exe图标 -->
 
+        <!-- The <script> tag should be placed before the <HTA> tag -->
+        <!-- In order to do window resize before the window created -->
+        <!-- You have to notice that once the browser parse through the <HTA> tag  -->
+        <!-- The window should be created -->
         <script>
             var windowWidthRatio = 0.97;
             var windowHeightRatio = 0.8;
@@ -54,6 +42,23 @@
                 }
             }
         </script>
+
+        <HTA:Application
+         ApplicationName="Message Box"
+         ID="MsgBox"
+         InnerBorder="no"
+         MaximizeButton="no"
+         MinimizeButton="no"
+         Scroll="no"
+         ContextMenu="no"
+         Selection="no"
+         SingleInstance="yes"
+         Border="thin"
+         Icon="colorcpl.exe"
+        />
+        <!-- ContextMenu: 右键菜单 -->
+        <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
+        <!-- Icon=".exe": 使用在System32文件夹中的exe图标 -->
     </head>
     <body>
         <h1>Hello World!</h1>
