@@ -32,12 +32,26 @@
                 return [xPos, yPos];
             }
 
-            window.onload = function(){
-                var windowWidth = windowWidthRatio * screen.width;
-                var windowHeight = windowHeightRatio * screen.height;
-                window.resizeTo(windowWidth, windowHeight);
-                var position = CalculateWindowPosition(windowWidth, windowHeight);
+            function BeforeWindowOnload_Setup(){
+                window.windowWidth = window.windowWidthRatio * screen.width;
+                window.windowHeight = window.windowHeightRatio * screen.height;
+            }
+
+            function BeforeWindowOnload_Loop(){
+                window.resizeTo(window.windowWidth, window.windowHeight);
+                var position = CalculateWindowPosition(window.windowWidth, window.windowHeight);
                 window.moveTo(position[0], position[1]);
+            }
+
+            // The following script will run BEFORE the window loads
+            while (true) {
+                BeforeWindowOnload_Setup();
+                try {
+                    BeforeWindowOnload_Loop();
+                    break;
+                } catch (e) {
+                    continue;
+                }
             }
         </script>
     </head>
