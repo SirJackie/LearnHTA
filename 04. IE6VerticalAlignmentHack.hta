@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IE6 Vertical Alignment Hack</title>
+        
+        <!-- Before IE9: No HTML5 or CSS3 Support -->
+        <!-- IE=9:  HTML5, CSS3, Not support CSS3 Animation, Support <HTA> tag, Support VBScript -->
+        <!-- IE=10: HTML5, CSS3, Not support <HTA> tag, Support VBScript -->
+        <!-- IE=11: HTML5, CSS3, Not support <HTA> tag, not support VBScript -->
+        <meta http-equiv="x-ua-compatible" content="IE=6"/>
+
+        <!-- The <script> tag should be placed before the <HTA> tag -->
+        <!-- In order to do window resize before the window created -->
+        <!-- You have to notice that once the browser parse through the <HTA> tag  -->
+        <!-- The window should be created -->
+        <script>
+            var windowWidthRatio = 0.97;
+            var windowHeightRatio = 0.8;
+
+            function CloseTheWindow(){
+                window.close();
+            }
+
+            function CalculateWindowPosition(windowWidth, windowHeight){
+                var xPos = (screen.width - windowWidth) / 2;
+                var yPos = (screen.height - windowHeight) / 2;
+                return [xPos, yPos];
+            }
+
+            function BeforeWindowOnload_Setup(){
+                window.windowWidth = window.windowWidthRatio * screen.width;
+                window.windowHeight = window.windowHeightRatio * screen.height;
+            }
+
+            function BeforeWindowOnload_Loop(){
+                window.resizeTo(window.windowWidth, window.windowHeight);
+                var position = CalculateWindowPosition(window.windowWidth, window.windowHeight);
+                window.moveTo(position[0], position[1]);
+            }
+
+            // The following script will run BEFORE the window loads
+            while (true) {
+                BeforeWindowOnload_Setup();
+                try {
+                    BeforeWindowOnload_Loop();
+                    break;
+                } catch (e) {
+                    continue;
+                }
+            }
+        </script>
+
+        <!-- ContextMenu: 右键菜单 -->
+        <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
+        <!-- Icon=".exe": 使用在System32文件夹中的exe图标 -->
+        <HTA:Application
+            ApplicationName="Message Box"
+            ID="MsgBox"
+            InnerBorder="no"
+            MaximizeButton="no"
+            MinimizeButton="no"
+            Scroll="no"
+            ContextMenu="no"
+            Selection="no"
+            SingleInstance="yes"
+            Border=""
+            Icon="colorcpl.exe"
+        />
+
+        <!-- Hack for letting IE6 Align Things Vertically -->
+        <style type="text/css">
+            * { margin:0; padding:0; list-style:none;  }
+            #Vertical1 {
+                width:100%;
+                display:table;
+                height:100%;
+                *position:relative; /*针对IE的hack*/
+            }
+            #Vertical2 {
+                display: table-cell;
+                vertical-align: middle;
+                *position:absolute; /*针对IE的hack*/
+                *top:50%;
+            }
+            #Vertical3 {
+                font-family:"宋体";
+                *position:relative; /*针对IE的hack*/
+                *top:-50%;
+                margin:0 auto;
+                width:100%;
+            }
+            #Horizontal{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="Vertical1">
+            <div id="Vertical2">
+                <div id="Vertical3">
+                    <div id="Horizontal">
+                        <h1>Hello World!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
