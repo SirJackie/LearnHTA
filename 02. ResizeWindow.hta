@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Resize Window</title>
+        <HTA:Application
+         ApplicationName="Message Box"
+         ID="MsgBox"
+         InnerBorder="no"
+         MaximizeButton="no"
+         MinimizeButton="no"
+         Scroll="no"
+         ContextMenu="no"
+         Selection="no"
+         SingleInstance="yes"
+         Border="thin"
+         Icon="colorcpl.exe"
+        />
+        <!-- ContextMenu: 右键菜单 -->
+        <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
+        <!-- Icon=".exe": 使用在System32文件夹中的exe图标 -->
+
+        <script>
+            var windowWidthRatio = 0.97;
+            var windowHeightRatio = 0.8;
+
+            function CloseTheWindow(){
+                window.close();
+            }
+
+            function CalculateWindowPosition(windowWidth, windowHeight){
+                var xPos = (screen.width - windowWidth) / 2;
+                var yPos = (screen.height - windowHeight) / 2;
+                return [xPos, yPos];
+            }
+
+            window.onload = function(){
+                var windowWidth = windowWidthRatio * screen.width;
+                var windowHeight = windowHeightRatio * screen.height;
+                window.resizeTo(windowWidth, windowHeight);
+                var position = CalculateWindowPosition(windowWidth, windowHeight);
+                window.moveTo(position[0], position[1]);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+        <button onclick="CloseTheWindow()">Close The Window</button>
+    </body>
+</html>
