@@ -17,8 +17,15 @@
         <!-- ContextMenu: 右键菜单 -->
         <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
         <!-- Icon=".exe": 使用在System32文件夹中的exe图标 -->
+
+        <script>
+            function CloseTheWindow(){
+                window.close();
+            }
+        </script>
     </head>
     <body>
         <h1>Hello World!</h1>
+        <button onclick="CloseTheWindow()">Close The Window</button>
     </body>
 </html>
