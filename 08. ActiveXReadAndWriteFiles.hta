@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>ActiveX Read And Write Files</title>
@@ -59,19 +59,38 @@
             }
         </script>
 
-    <script>
-        function ReadFile(filename){
-            var forReading = 1;
-            var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
-            var file = fileSystem.OpenTextFile(filename, forReading);
-            var content = file.ReadLine();
-            return content;
-        }
-        function ReadAndAlert(){
-            var content = ReadFile(".\\FileForReadAndWrite.txt");
-            alert(content);
-        }
-    </script>
+        <script>
+            function ReadFile(filename){
+                var forReading = 1;  // 1 for true, 0 for false, bool-unacceptable
+                var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+                var file = fileSystem.OpenTextFile(filename, forReading);
+                var content = file.ReadAll();
+                file.Close();  // Remember to close file in order to release
+                return content;
+            }
+
+            function WriteFile(filename, content){
+                var overWriteIfExist = 1;  // 1 for true, 0 for false, bool-unacceptable
+                var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+                var file = fileSystem.CreateTextFile(filename, overWriteIfExist);
+                contentParsed = content.split("\n");
+                // Write the 1st to (n-1)th lines with an enter character
+                for(var i = 0; i <= contentParsed.length - 2; i++){
+                    file.WriteLine(contentParsed[i]);
+                }
+                // Write the last line without an enter character
+                file.Write(contentParsed[contentParsed.length - 1]);
+                file.Close();  // Remember to close file in order to release
+            }
+
+            function ReadTestBtnCallBack(){
+                alert(ReadFile("Test.txt"));
+            }
+
+            function WritingTestBtnCallback(){
+                WriteFile('Test.txt', 'Hello\nWorld\n中文也可以');
+            }
+        </script>
 
         <!-- ContextMenu: 右键菜单 -->
         <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
@@ -91,6 +110,7 @@
         />
     </head>
     <body>
-        <button onclick="ReadAndAlert()">Read From File</button>
+        <button onclick="WritingTestBtnCallback()">Write Testing Content to Test.txt</button>
+        <button onclick="ReadTestBtnCallBack()">Read Testing Content From Test.txt</button>
     </body>
 </html>

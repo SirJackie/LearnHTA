@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>Whole Page Dragable</title>
+        <title>Download File From The Internet</title>
         
         <!-- Before IE9: No HTML5 or CSS3 Support -->
         <!-- IE=9:  HTML5, CSS3, Not support CSS3 Animation, Support <HTA> tag, Support VBScript -->
@@ -59,6 +59,48 @@
             }
         </script>
 
+        <script>
+            function DownloadFile(){
+
+                // Create XMLHttp Object to save file
+                var xmlhttp;
+
+                // Try to create the newest version of XMLHttp Object
+                if (window.ActiveXObject){
+                    var Versions = [
+                        "MSXML2.XMLHttp.5.0",
+                        "MSXML2.XMLHttp.4.0",
+                        "MSXML2.XMLHttp.3.0",
+                        "MSXML2.XMLHttp",
+                        "Microsoft.XMLHttp"
+                    ];
+                    for (var i = 0; i < Versions.length; i++) {
+                        try {
+                            xmlhttp = new ActiveXObject(Versions[i]);
+                        }
+                        catch (e) {}
+                    }
+                }
+
+                // Request Online Object
+                xmlhttp.open(
+                    "GET",
+                    "https://www.baidu.com/img/flexible/logo/pc/result.png",
+                    false
+                );
+
+                xmlhttp.send();
+                var Contents = xmlhttp.responseBody;
+                var oStr =  new ActiveXObject("ADODB.Stream");
+                oStr.Mode = 3;
+                oStr.Type = 1;
+                oStr.Open();
+                oStr.Write(Contents);
+                oStr.SaveToFile("c://result.png", 2);  // 此处为要保存的本地路径
+            }
+            
+        </script>
+
         <!-- ContextMenu: 右键菜单 -->
         <!-- Border=thin: 禁用鼠标拖动边框缩放窗口大小 -->
         <!-- Icon=".exe": 使用在System32文件夹中的exe图标 -->
@@ -75,28 +117,8 @@
             Border="thin"
             Icon="colorcpl.exe"
         />
-
-        <style>
-            html, body{
-                margin: 0;
-                padding: 0;
-                border: 0;
-                height: 100%;
-                width: 100%;
-                background-color: #00FFFF;
-            }
-        </style>
-
-        <script>
-            function Drag(){
-                window.moveTo(0, 0);
-            }
-            function Drop(){
-                window.moveTo(window.windowLeft, window.windowUp);
-            }
-        </script>
     </head>
-    <body onmousedown="Drag()" onmouseup="Drop()">
-        &nbsp;
+    <body>
+        <button onclick="DownloadFile()">Download a File</button>
     </body>
 </html>
